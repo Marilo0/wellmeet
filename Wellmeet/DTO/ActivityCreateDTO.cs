@@ -1,0 +1,37 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Wellmeet.DTO
+{
+    public record ActivityCreateDTO
+    {
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(200, MinimumLength = 2, ErrorMessage = "Title must be between 2 and 200 characters.")]
+        public string? Title { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(1000, ErrorMessage = "Description must not exceed 1000 characters.")]
+        public string? Description { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(100, ErrorMessage = "City must not exceed 100 characters.")]
+        public string? City { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(255, ErrorMessage = "Location must not exceed 255 characters.")]
+        public string? Location { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(100, ErrorMessage = "Category must not exceed 100 characters.")]
+        public string? Category { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public DateTime StartDateTime { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public DateTime EndDateTime { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [Range(1, 100, ErrorMessage = "Maximum participants must be between 1 and 100.")]
+        public int MaxParticipants { get; set; } = 10;
+    }
+}
