@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Wellmeet.Core.Enums;
 
 namespace Wellmeet.DTO
 {
@@ -22,7 +23,7 @@ namespace Wellmeet.DTO
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(100, ErrorMessage = "Category must not exceed 100 characters.")]
-        public string? Category { get; set; }
+        public ActivityCategory Category { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
         public DateTime StartDateTime { get; set; }

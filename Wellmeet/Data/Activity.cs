@@ -1,4 +1,6 @@
-﻿namespace Wellmeet.Data
+﻿using Wellmeet.Core.Enums;
+
+namespace Wellmeet.Data
 {
     public class Activity : BaseEntity
     {
@@ -8,7 +10,7 @@
         public string Description { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
+        public ActivityCategory Category { get; set; } = ActivityCategory.Other;
 
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }

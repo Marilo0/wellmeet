@@ -68,7 +68,10 @@ namespace Wellmeet.Data
                 entity.Property(a => a.Description).HasMaxLength(500);
                 entity.Property(a => a.City).HasMaxLength(50);
                 entity.Property(a => a.Location).HasMaxLength(100);
-                entity.Property(a => a.Category).HasMaxLength(50);
+                entity.Property(a => a.Category)
+                                   .HasConversion<string>()
+                                   .HasMaxLength(50);
+
 
                 entity.Property(a => a.InsertedAt)
                     .ValueGeneratedOnAdd()
