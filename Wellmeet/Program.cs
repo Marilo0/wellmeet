@@ -151,7 +151,8 @@ namespace Wellmeet
                 var context = scope.ServiceProvider.GetRequiredService<WellmeetDbContext>();
                 if (!context.Users.Any(u => u.UserRole == UserRole.Admin))
                 {
-                    var adminPassword = builder.Configuration["AdminPassword"] ?? "Admin1Pass!";
+                    var adminPassword = builder.Configuration["AdminPassword"] ?? throw new Exception("AdminPassword is required.");
+
 
                     var superAdmin = new User
                     {
