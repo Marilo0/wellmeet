@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Linq.Expressions;
 using Wellmeet.Data;
 using Wellmeet.Models;
@@ -13,19 +14,18 @@ namespace Wellmeet.Repositories
         {
         }
 
-        //maybe i can add .AsNoTracking() to improve performance to all methods that only read data
+        //not in use yet -> login flow uses VerifyAndGetUserAsync ->  LoginAsync
+        //public async Task<User?> GetUserAsync(string username, string password)
+        //{
+        //    var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username
+        //    || u.Email == username);
 
-        public async Task<User?> GetUserAsync(string username, string password)
-        {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Username == username
-            || u.Email == username);
+        //    if (user == null) return null;
 
-            if (user == null) return null;
+        //    if (!EncryptionUtil.IsValidPassword(password, user.Password)) return null;
 
-            if (!EncryptionUtil.IsValidPassword(password, user.Password)) return null;
-
-            return user;
-        }
+        //    return user;
+        //}
 
         public async Task<User?> GetUserByUsernameAsync(string username) =>
             await context.Users.FirstOrDefaultAsync(u => u.Username == username);
@@ -42,7 +42,7 @@ namespace Wellmeet.Repositories
         public async Task<PaginatedResult<User>> GetUsersAsync(int pageNumber, int pageSize,
        List<Expression<Func<User, bool>>> predicates)
         {
-            IQueryable<User> query = context.Users; // δεν εκτελείται
+            IQueryable<User> query = context.Users; // query is not executed yet
 
             //soft delete
             //query = query.Where(u => !u.IsDeleted);
@@ -51,19 +51,19 @@ namespace Wellmeet.Repositories
             {
                 foreach (var predicate in predicates)
                 {
-                    query = query.Where(predicate); // εκτελείται, υπονοείται το AND
+                    query = query.Where(predicate); // applied to the query (AND logic)
                 }
             }
 
-            int totalRecords = await query.CountAsync(); // εκτελείται
+            int totalRecords = await query.CountAsync(); // query executes here
 
             int skip = (pageNumber - 1) * pageSize;
 
             var data = await query
-                .OrderBy(u => u.Id) // πάντα να υπάρχει ένα OrderBy πριν το Skip
+                .OrderBy(u => u.Id) // always apply OrderBy before Skip
                 .Skip(skip)
                 .Take(pageSize)
-                .ToListAsync(); // εκτελείται
+                .ToListAsync();  // query executes here
 
             return new PaginatedResult<User>(data, totalRecords, pageNumber, pageSize);
         }
