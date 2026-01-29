@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Wellmeet.Core.Enums;
 using Wellmeet.Data;
 
 namespace Wellmeet.Core.Filters
@@ -8,8 +9,7 @@ namespace Wellmeet.Core.Filters
     {
         
         // USER FILTERS
-        // ---------------------------------------------------------
-        public static List<Expression<Func<User, bool>>> BuildUserPredicates(UserFiltersDTO filters)
+           public static List<Expression<Func<User, bool>>> BuildUserPredicates(UserFiltersDTO filters)
         {
             var predicates = new List<Expression<Func<User, bool>>>();
 
@@ -30,7 +30,6 @@ namespace Wellmeet.Core.Filters
 
        
         // ACTIVITY FILTERS
-        // ---------------------------------------------------------
         public static List<Expression<Func<Activity, bool>>> BuildActivityPredicates(ActivityFiltersDTO filters)
         {
             var predicates = new List<Expression<Func<Activity, bool>>>();
@@ -51,8 +50,12 @@ namespace Wellmeet.Core.Filters
                 );
             }
 
-            if (!string.IsNullOrWhiteSpace(filters.Category))
-                predicates.Add(a => a.Category.Contains(filters.Category!.Trim()));
+            if (!string.IsNullOrWhiteSpace(filters.Category) &&
+            Enum.TryParse<ActivityCategory>(filters.Category.Trim(), true, out var category))
+            {
+                predicates.Add(a => a.Category == category);
+            }
+
 
             if (filters.StartDateFrom.HasValue)
                 predicates.Add(a => a.StartDateTime >= filters.StartDateFrom.Value);
@@ -80,7 +83,6 @@ namespace Wellmeet.Core.Filters
         }
 
         // ACTIVITIES CREATED BY SPECIFIC USER
-        // ---------------------------------------------------------
         public static List<Expression<Func<Activity, bool>>> CreatedByUser(int userId)
         {
             return new List<Expression<Func<Activity, bool>>>
