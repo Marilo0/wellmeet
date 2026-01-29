@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Wellmeet.Core.Enums;
 
 namespace Wellmeet.DTO
@@ -23,6 +24,7 @@ namespace Wellmeet.DTO
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [EnumDataType(typeof(ActivityCategory), ErrorMessage = "Invalid category.")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ActivityCategory Category { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
