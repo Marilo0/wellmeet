@@ -26,9 +26,6 @@ namespace Wellmeet.DTO
         [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Lastname must be between 2 and 50 characters.")]
         public string? Lastname { get; set; }
-
-        //[Required(ErrorMessage = "The {0} field is required.")]
-        //[EnumDataType(typeof(UserRole), ErrorMessage = "Invalid user role")]
-        //public UserRole? UserRole { get; set; }
+        
     }
 }
