@@ -6,7 +6,7 @@ namespace Wellmeet.DTO
     public record ActivityCreateDTO
     {
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(200, MinimumLength = 2, ErrorMessage = "Title must be between 2 and 200 characters.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Title must be between 2 and 100 characters.")]
         public string? Title { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
@@ -18,11 +18,11 @@ namespace Wellmeet.DTO
         public string? City { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(255, ErrorMessage = "Location must not exceed 255 characters.")]
+        [StringLength(100, ErrorMessage = "Location must not exceed 100 characters.")]
         public string? Location { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(100, ErrorMessage = "Category must not exceed 100 characters.")]
+        [EnumDataType(typeof(ActivityCategory), ErrorMessage = "Invalid category.")]
         public ActivityCategory Category { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
