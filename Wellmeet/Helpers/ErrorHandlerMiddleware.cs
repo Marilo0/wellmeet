@@ -5,11 +5,10 @@ using Wellmeet.Exceptions;
 namespace Wellmeet.Helpers
 {
     public class ErrorHandlerMiddleware
-    {
+    {   
+        // Though, it is recommended using Dependency Injection(DI) to get an instance of ILogger<T>.
         private readonly ILogger<ErrorHandlerMiddleware> logger = new LoggerFactory().AddSerilog().CreateLogger<ErrorHandlerMiddleware>();
-        // private readonly ILogger<ErrorHandlerMiddleware> _logger;
-        // ai suggest this bc Microsoft and Serilog both recommend that you do NOT manually create loggers in ASP.NET Core.
-        // They recommend using Dependency Injection (DI) to get an instance of ILogger<T>.
+        
         private readonly RequestDelegate _next;
 
         public ErrorHandlerMiddleware(RequestDelegate next)

@@ -8,7 +8,7 @@ namespace Wellmeet.Services.Interfaces
     public interface IUserService
     {
         Task<User?> VerifyAndGetUserAsync(UserLoginDTO credentials);
-        Task<JwtTokenDTO> LoginAsync(UserLoginDTO dto); // maybe remove this line later
+        Task<JwtTokenDTO> LoginAsync(UserLoginDTO dto); 
         Task<UserReadOnlyDTO> RegisterAsync(UserRegisterDTO dto);
 
         Task<UserReadOnlyDTO> GetByIdAsync(int id);
@@ -20,6 +20,5 @@ namespace Wellmeet.Services.Interfaces
             int pageSize,
             UserFiltersDTO filters);
 
-        //Task<DashboardDTO> GetDashboardAsync(int userId);
     }
 }

@@ -26,11 +26,11 @@ namespace Wellmeet.Services
 
             try
             {
-                // 1. Get activity
+                // Get activity
                 var activity = await _uow.ActivityRepository.GetAsync(activityId)
                     ?? throw new EntityNotFoundException("Activity", "Activity not found.");
 
-                // 2. Business rules
+                // Business rules
                 if (activity.CreatorId == userId)
                     throw new EntityForbiddenException("Activity", "You cannot join your own activity.");
 
@@ -43,7 +43,7 @@ namespace Wellmeet.Services
                     activity.Participants.Count >= activity.MaxParticipants)
                     throw new EntityForbiddenException("Activity", "Activity is full.");
 
-                // 3. 🔥 IMPORTANT: check INCLUDING soft-deleted
+                // check (soft-deleted included)
                 var existing = await _uow.ActivityParticipantRepository
                     .GetIncludingDeletedAsync(activityId, userId);
 
@@ -116,69 +116,7 @@ namespace Wellmeet.Services
             return _mapper.Map<ActivityParticipantReadOnlyDTO>(participant);
         }
 
-        //public async Task<ActivityParticipantReadOnlyDTO> JoinAsync(int userId, int activityId)
-        //{
-        //    ActivityParticipant? participant = null;
-
-        //    try
-        //    {
-        //        var activity = await _uow.ActivityRepository.GetAsync(activityId)
-        //            ?? throw new EntityNotFoundException("Activity", "Activity not found.");
-
-        //        if (activity.CreatorId == userId)
-        //            throw new EntityForbiddenException("Activity", "You cannot join your own activity.");
-
-        //        // Cannot join past activities
-        //        if (activity.StartDateTime <= DateTime.UtcNow)
-        //            throw new EntityForbiddenException("Activity", "You cannot join an activity that has already started or ended.");
-
-
-        //        if (await _uow.ActivityParticipantRepository.IsUserParticipantAsync(activityId, userId))
-        //            throw new EntityAlreadyExistsException("Participant", "You already joined this activity.");
-
-        //        if (activity.MaxParticipants > 0 &&
-        //            activity.Participants.Count >= activity.MaxParticipants)
-        //            throw new EntityForbiddenException("Activity", "Activity is full.");
-
-        //        participant = new ActivityParticipant
-        //        {
-        //            ActivityId = activityId,
-        //            UserId = userId,
-        //            JoinDate = DateTime.UtcNow
-        //        };
-
-        //        await _uow.ActivityParticipantRepository.AddAsync(participant);
-        //        await _uow.SaveAsync();
-
-        //        _logger.LogInformation("User {UserId} joined Activity {ActivityId}", userId, activityId);
-        //    }
-        //    catch (EntityNotFoundException ex)
-        //    {
-        //        _logger.LogError("Join failed: Activity {ActivityId} not found. {Message}", activityId, ex.Message);
-        //        throw;
-        //    }
-        //    catch (EntityForbiddenException ex)
-        //    {
-        //        _logger.LogError("Join forbidden for User {UserId} on Activity {ActivityId}. {Message}",
-        //            userId, activityId, ex.Message);
-        //        throw;
-        //    }
-        //    catch (EntityAlreadyExistsException ex)
-        //    {
-        //        _logger.LogError("Join failed: User {UserId} already joined Activity {ActivityId}. {Message}",
-        //            userId, activityId, ex.Message);
-        //        throw;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Unexpected error while joining Activity {ActivityId} by User {UserId}", activityId, userId);
-        //        throw new ServerException("Participant", "Unexpected error while joining activity.");
-        //    }
-
-        //    return _mapper.Map<ActivityParticipantReadOnlyDTO>(participant);
-        //}
-
-        // LEAVE -------------------------------------------------------------------
+        // LEAVE --------------------------------------------------------
         public async Task<bool> LeaveAsync(int userId, int activityId)
         {
             try
@@ -209,7 +147,7 @@ namespace Wellmeet.Services
             }
         }
 
-        // GET PARTICIPANTS ----------------------------------------------------------
+        // GET PARTICIPANTS --------------------------------------------------------
         public async Task<IEnumerable<ActivityParticipantReadOnlyDTO>> GetParticipantsAsync(int activityId)
         {
             var participants = await _uow.ActivityParticipantRepository.GetParticipantsByActivityAsync(activityId);

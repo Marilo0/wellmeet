@@ -11,7 +11,6 @@ namespace Wellmeet.DTO
         [Required(ErrorMessage = "Password is required")] 
         public string? Password { get; set; }
 
-        public bool KeepLoggedIn { get; set; } //to check if it is needed and what to do with it
-        //Keep it for future “remember me” implementation e.g., for setting longer token expiration
+        public bool KeepLoggedIn { get; set; } //Keep it for future "remember me" implementation e.g., for setting longer token expiration
     }
 }

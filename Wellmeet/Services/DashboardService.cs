@@ -36,7 +36,7 @@ namespace Wellmeet.Services
                 JoinedActivities = _mapper.Map<List<ActivityParticipantReadOnlyDTO>>(joinedActivities),
             };
 
-            //dto.TotalCreatedActivities = dto.CreatedActivities.Count;   // I HAVE THEM IN COMPUTED PROPERTIES IN DTO BUT MAYBE IT IS BETTER HERE
+            //dto.TotalCreatedActivities = dto.CreatedActivities.Count;   // I HAVE THEM IN COMPUTED PROPERTIES IN DTO BUT IT IS BETTER HERE
             //dto.TotalJoinedActivities = dto.JoinedActivities.Count;
 
             //dto.UpcomingJoinedActivities = dto.JoinedActivities
