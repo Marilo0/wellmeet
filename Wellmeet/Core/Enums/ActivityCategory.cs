@@ -1,5 +1,5 @@
 ﻿namespace Wellmeet.Core.Enums
-{ }
+{ 
     public enum ActivityCategory
     {
         Workout,
