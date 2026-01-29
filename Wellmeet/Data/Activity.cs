@@ -22,8 +22,6 @@ namespace Wellmeet.Data
 
         // Navigation property - to match User.CreatedActivities
         public virtual User Creator { get; set; } = null!;
-
-        // Activity Participants
         public virtual ICollection<ActivityParticipant> Participants { get; set; } = new List<ActivityParticipant>();
     }
 }
