@@ -3,9 +3,16 @@
     public enum ActivityCategory
     {
         Workout,
+        Yoga,
         Hiking,
         Meditation,
-        Yoga,
+        Arts,
+        Music,
+        Education,
+        Social,
+        Volunteering,
+        Gaming,
         Other
     }
 }
+
