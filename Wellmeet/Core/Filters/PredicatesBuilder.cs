@@ -66,7 +66,7 @@ namespace Wellmeet.Core.Filters
             if (filters.IsJoinable == true)
             {
                 predicates.Add(a =>
-                    a.StartDateTime > DateTime.UtcNow &&
+                      a.StartDateTime > DateTime.UtcNow.AddMinutes(30) &&
                     a.Participants.Count < a.MaxParticipants
                 );
             }

@@ -21,7 +21,8 @@
             get
             {
                 var timeUntilStart = StartDateTime - DateTime.UtcNow;
-                return timeUntilStart > TimeSpan.FromMinutes(30); // Can join if >30 min away
+                return timeUntilStart > TimeSpan.FromMinutes(30) &&
+                       CurrentParticipants < MaxParticipants; // Can join if >30 min away and not full
             }
         }
 
